@@ -6,7 +6,7 @@ function buildAudioGraph() {
     analyser = audioContext.createAnalyser();
 
     // Try changing for lower values: 512, 256, 128, 64...
-    analyser.fftSize = 512;
+    analyser.fftSize = 256;
     bufferLength = analyser.frequencyBinCount;
     dataArray = new Uint8Array(bufferLength);
 
@@ -25,9 +25,10 @@ function drawVolumeMeter() {
     var average = getAverageVolume(dataArray);
     ctx.beginPath();
     // draw the center circle meter
-    ctx.arc(canvas.width / 2, canvas.height / 4, 25 + (average / 4), 0, 2 * Math.PI);
+    ctx.arc(canvas.width / 2, canvas.height / 4, 8 + (average / 8), 0, 2 * Math.PI);
     ctx.fill();
-    ctx.fillStyle = "white";
+    
+    /*ctx.fillStyle = "white";
     //draw the 2 inversed volume meter
     ctx.beginPath();
     ctx.arc(canvas.width / 4, canvas.height / 4, 10 + ((255 - average) / 8), 0, 2 * Math.PI, true);
@@ -45,7 +46,7 @@ function drawVolumeMeter() {
     ctx.beginPath();
     ctx.arc(canvas.width / 4 * 3, canvas.height / 4, (255 - average) / 8, 0, 2 * Math.PI, true);
     ctx.fill();
-
+*/
     ctx.restore();
 }
 
@@ -66,13 +67,6 @@ function getAverageVolume(array) {
 }
 
 function visualize() {
-    // clear the canvas
-    // like this: canvasContext.clearRect(0, 0, width, height);
-
-    // Or use rgba fill to give a slight blur effect
-    //ctx.fillStyle = 'rgba(0, 0, 0, 0.0)';
-    //ctx.fillRect(0, 0, canvas.width, canvas.height);
-
     // Get the analyser data
     analyser.getByteTimeDomainData(dataArray);
 
@@ -86,16 +80,13 @@ function visualize() {
     var centerX = canvas.width / 2;
     var centerY = canvas.height / 4;
     var angleWidth = Math.PI / bufferLength;
-    var rayon = 250;
 
     for (var i = 0; i < bufferLength; i++) {
         var angle = i * angleWidth;
-        // normalize the value, now between 0 and 1
-        var v = dataArray[i] / 510;
-
+        var v = (256+dataArray[i])/8;
         // We draw from y=0 to height
-        var x = rayon * Math.sin(angle) * v;
-        var y = rayon * Math.cos(angle) * v;
+        var x = Math.sin(angle) * v;
+        var y = Math.cos(angle) * v;
 
         if (i === 0) {
             //ctx.moveTo(centerX, centerY+rayon/2);
@@ -114,12 +105,10 @@ function visualize() {
 
     for (var i = 0; i < bufferLength; i++) {
         var angle = (i * angleWidth) + Math.PI;
-        // normalize the value, now between 0 and 1
-        var v = dataArray[i] / 510;
-
+        var v = (256+dataArray[i])/8;
         // We draw from y=0 to height
-        var x = rayon * Math.sin(angle) * v;
-        var y = rayon * Math.cos(angle) * v;
+        var x =  Math.sin(angle) * v;
+        var y = Math.cos(angle) * v;
 
         if (i === 0) {
             //ctx.moveTo(centerX, centerY+rayon/2);

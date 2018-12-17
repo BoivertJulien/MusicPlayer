@@ -1,13 +1,13 @@
 // Clears the canvas content
 function clearCanvas() {
-   ctx.clearRect(0, 0, canvas.width, canvas.height);
+   //ctx.clearRect(0, 0, canvas.width, canvas.height);
       // create a vertical gradient of the height of the canvas
-    gradient = ctx.createLinearGradient(0, 0, 0, canvas.height/2);
-    gradient.addColorStop(0, 'black');
-    gradient.addColorStop(0.40, 'blue');
-    gradient.addColorStop(0.48, 'lightblue');
-    gradient.addColorStop(0.5, 'pink');
-    gradient.addColorStop(1, 'magenta');
+    gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    gradient.addColorStop(0, 'rgba(0,0,0,0.4)');
+    gradient.addColorStop(0.40, 'rgba(0,0,255,0.4)');
+    gradient.addColorStop(0.49, 'rgba(173,216,230,0.4)');
+    gradient.addColorStop(0.51, 'rgba(255,192,203,0.4)');
+    gradient.addColorStop(0.8, 'rgba(255,0,255,0.4)');
 
     ctx.save();
 
